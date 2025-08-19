@@ -40,8 +40,7 @@ jobs:
           --template-file cft/template.yml \
           --stack-name ecr-repo-stack \
           --region ${{ env.AWS_REGION }} \
-          --capabilities CAPABILITY_NAMED_IAM
-          --parameters ParameterKey=ImageUrl,ParameterValue=059948105653.dkr.ecr.ap-south-1.amazonaws.com/documentportal:latest
+          --capabilities CAPABILITY_NAMED_IAM          
 
     - name: Login to Amazon ECR
       id: login-ecr
