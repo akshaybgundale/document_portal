@@ -130,6 +130,17 @@ Resources:
                 Action:
                   - secretsmanager:GetSecretValue
                 Resource: "*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - logs:CreateLogGroup
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:BatchCheckLayerAvailability
+                Resource: "*"
 
   ### Security Group
   ECSSecurityGroup:
