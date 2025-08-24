@@ -94,7 +94,7 @@ jobs:
   # -------------------------------
   deploy:
     name: Deploy to ECS Fargate
-    needs: build-and-push
+    needs: deploy-cfn
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
