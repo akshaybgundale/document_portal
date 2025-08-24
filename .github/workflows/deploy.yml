@@ -60,41 +60,14 @@ jobs:
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
           echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
-
-  # -------------------------------
-  # 2. Deploy AWS CloudFormation Stack
-  # -------------------------------
-
-  deploy-cfn:
-    name: Deploy CloudFormation Stack
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Deploy CloudFormation Stack
-        run: |
-          aws cloudformation deploy \
-            --template-file cft/template.yml \
-            --stack-name document-portal-stack \
-            --capabilities CAPABILITY_NAMED_IAM \
-            --parameter-overrides ImageUrl=${{ needs.build-and-push.outputs.image }}
   
 
   # -------------------------------
-  # 3. Deploy to ECS
+  # 2. Deploy to ECS
   # -------------------------------
   deploy:
     name: Deploy to ECS Fargate
-    needs: deploy-cfn
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
